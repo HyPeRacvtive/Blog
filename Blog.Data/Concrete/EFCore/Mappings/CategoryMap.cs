@@ -81,7 +81,7 @@ namespace Blog.Data.Concrete.EFCore.Mappings
             },
             new Category
             {
-                Id = 4,
+                Id = 5,
                 Name = "Kotlin",
                 Description = "Kotlin Programlama Dili İLe İlgili En Güncel Bilgiler",
                 Note = "Kotlin Blog Kategorisi",
@@ -94,7 +94,7 @@ namespace Blog.Data.Concrete.EFCore.Mappings
             },
             new Category
             {
-                Id = 5,
+                Id = 6,
                 Name = "Asp.Net",
                 Description = "Asp.Net Programlama Dili İLe İlgili En Güncel Bilgiler",
                 Note = "Asp.Net Blog Kategorisi",
