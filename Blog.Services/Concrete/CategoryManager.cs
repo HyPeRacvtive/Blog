@@ -26,6 +26,7 @@ namespace Blog.Services.Concrete
         }
         public async Task<IDataResult<CategoryDto>> Get(int categoryId)
         {
+
             var category = await _uniteOfWork.Categories.GetAsync(c => c.Id == categoryId, c => c.Articles);
             if (category != null)
             {
@@ -94,7 +95,8 @@ namespace Blog.Services.Concrete
         }
         public async Task<IDataResult<CategoryDto>> Update(CategoryUpdateDto categoryUpdateDto, string modifiedByName)
         {
-            var category = _mapper.Map<Category>(categoryUpdateDto);
+            var oldCategory = await _uniteOfWork.Categories.GetAsync(c => c.Id == categoryUpdateDto.Id);
+            var category = _mapper.Map<CategoryUpdateDto,Category>(categoryUpdateDto,oldCategory);
             category.ModifiedByName = modifiedByName;
             var updatedCategory = await _uniteOfWork.Categories.UpdateAsync(category);
             await _uniteOfWork.SaveAsync();
@@ -160,12 +162,12 @@ namespace Blog.Services.Concrete
             if (result)
             {
                 var category = await _uniteOfWork.Categories.GetAsync(c => c.Id == categoryId);
-                var categoryUpdateDto= _mapper.Map<CategoryUpdateDto>(category);
+                var categoryUpdateDto = _mapper.Map<CategoryUpdateDto>(category);
                 return new DataResult<CategoryUpdateDto>(ResultStatus.Success, categoryUpdateDto);
             }
             else
             {
-                return new DataResult<CategoryUpdateDto>(ResultStatus.Error,"Böyle Bir Kategori Bulunamadı",null);
+                return new DataResult<CategoryUpdateDto>(ResultStatus.Error, "Böyle Bir Kategori Bulunamadı", null);
             }
         }
     }
