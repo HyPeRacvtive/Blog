@@ -74,16 +74,38 @@ namespace Blog.WebUI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int categoryId)
         {
-           
+
             var result = await _categoryService.GetCategoryUpdateDto(categoryId);
             if (result.ResultStatus == ResultStatus.Success)
             {
-                return PartialView("_CategoryUpdatePartial",result.Data);
+                return PartialView("_CategoryUpdatePartial", result.Data);
             }
             else
             {
                 return NotFound();
             }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(CategoryUpdateDto CategoryUpdateDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _categoryService.Update(CategoryUpdateDto, "Mehmet Gön");
+                if (result.ResultStatus == ResultStatus.Success)
+                {
+                    var categoryUpdateAjaxModel = JsonSerializer.Serialize(new CategoryUpdateAjaxViewModel
+                    {
+                        CategoryDto = result.Data,
+                        CategoryUpdatePartial = await this.RenderViewToStringAsync("_CategoryUpdatePartial", CategoryUpdateDto)
+                    });
+                    return Json(categoryUpdateAjaxModel);
+                }
+            }
+            var categoryUpdateAjaxErrorModel = JsonSerializer.Serialize(new CategoryUpdateAjaxViewModel
+            {
+                CategoryUpdatePartial = await this.RenderViewToStringAsync("_CategoryUpdatePartial", CategoryUpdateDto)
+            });
+            return Json(categoryUpdateAjaxErrorModel);
         }
     }
 }
