@@ -155,7 +155,6 @@ namespace Blog.Services.Concrete
             }
             return new DataResult<CatergoryListDto>(ResultStatus.Error, "Hiç Bir Kategori Bulunamadı", null);
         }
-
         public async Task<IDataResult<CategoryUpdateDto>> GetCategoryUpdateDto(int categoryId)
         {
             var result = await _uniteOfWork.Categories.AnyAsync(c => c.Id == categoryId);

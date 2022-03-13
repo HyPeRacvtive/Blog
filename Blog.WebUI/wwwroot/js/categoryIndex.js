@@ -322,7 +322,7 @@
     /*****************EKLEME*****************/
     $(function () {
         const url = '/Admin/Category/Add/'
-        const placeHolderDiv = $('#ModalPlaceHolder ');
+        const placeHolderDiv = $('#ModalPlaceHolder');
         $('#btnAdd').click(function () {
             $.get(url).done(function (data) {
                 placeHolderDiv.html(data),
